@@ -6,15 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/rvcristiand/projects/distributed/sequence/main.cpp
+/home/rvcristiand/projects/distributed/cuda/main.cpp
 iostream
--
-cmath
--
-ctime
--
-opencv2/core/core.hpp
--
-opencv2/highgui/highgui.hpp
 -
 

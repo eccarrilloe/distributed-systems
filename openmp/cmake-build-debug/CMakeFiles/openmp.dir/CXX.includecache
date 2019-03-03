@@ -6,12 +6,16 @@
 
 #IncludeRegexTransform: 
 
-/home/rvcristiand/projects/distributed/sequence/main.cpp
+/home/rvcristiand/projects/distributed/openmp/main.cpp
 iostream
+-
+stdio.h
 -
 cmath
 -
 ctime
+-
+omp.h
 -
 opencv2/core/core.hpp
 -
