@@ -12,12 +12,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de072268-79de-4ac3-8952-4551f1c00416" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../openmp/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cuda/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../cuda/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cuda/main.cu" beforeDir="false" afterPath="$PROJECT_DIR$/../cuda/main.cu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../openmp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../openmp/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../openmp/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../openmp/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/sequence.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/sequence.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/sequence.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/sequence.dir/main.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/sequence" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/sequence" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -33,11 +33,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="474">
-              <caret line="49" column="1" lean-forward="true" selection-start-line="49" selection-start-column="1" selection-end-line="49" selection-end-column="1" />
+            <state relative-caret-position="180">
+              <caret line="39" column="64" selection-start-line="39" selection-start-column="64" selection-end-line="39" selection-end-column="64" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
@@ -56,10 +65,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="293" />
-    <option name="y" value="53" />
-    <option name="width" value="1400" />
-    <option name="height" value="1000" />
+    <option name="x" value="67" />
+    <option name="y" value="25" />
+    <option name="width" value="927" />
+    <option name="height" value="1055" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -126,11 +135,18 @@
       <workItem from="1551425897575" duration="55000" />
       <workItem from="1551425983831" duration="46000" />
       <workItem from="1551426086379" duration="172000" />
+      <workItem from="1551678409834" duration="1578000" />
+      <workItem from="1551735695497" duration="37000" />
+      <workItem from="1551859857958" duration="91000" />
+      <workItem from="1551859997274" duration="1979000" />
+      <workItem from="1551878007247" duration="99000" />
+      <workItem from="1551878843063" duration="10000" />
+      <workItem from="1551879156923" duration="153000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19501000" />
+    <option name="totallyTimeSpent" value="23448000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -145,7 +161,7 @@
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22634201" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.0968456" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -171,10 +187,14 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/include/opencv2/core/matx.hpp">
+    <entry file="file:///usr/include/opencv2/core/matx.hpp" />
+    <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="614" selection-start-line="614" selection-end-line="614" />
+        <state relative-caret-position="180">
+          <caret line="39" column="64" selection-start-line="39" selection-start-column="64" selection-end-line="39" selection-end-column="64" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -182,16 +202,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="49" column="1" lean-forward="true" selection-start-line="49" selection-start-column="1" selection-end-line="49" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

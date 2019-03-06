@@ -16,61 +16,53 @@ double processFrame(Mat frame);
 
 int main(int argc, char** argv)
 {
+    // Init data and variables
     string filename = "../../samples/sunshine.mp4";
     VideoCapture video = openVideo(filename);
-    Mat frame;
 
-    int currentFrame = 0;
-    int currentSample = 1;
     int frameCount = video.get(CV_CAP_PROP_FRAME_COUNT);
-    int fps = video.get(CV_CAP_PROP_FPS);
-    int time = ceil(frameCount / fps);
-    int rate = 2.0;
-    int interval = rate * fps;
-    int samples = floor(time / rate);
-    vector<double> results;
-    vector<Mat> frames;
+    int samples = 100;
+    int interval = frameCount / samples;
 
-    for (int i = 0; i <= samples; i++) {
-        results.push_back(0);
-    }
+    printf("[INFO] Setup Data\n");
+    int startInitFrames = clock();
 
-    cout << "[INFO] Video: " << time << " seconds." << endl;
-    cout << "[INFO] Taking " << samples + 1 << " samples in intervals of " << rate << "s." << endl;
-    cout << endl;
-
-    clock_t startTime = clock();
-
-    for (int i = 0; i <= samples; i++) {
+    // Get frame samples from VideoCapture
+    Mat* data = new Mat[samples];
+    for (int i = 0; i < samples; i++) {
         Mat frame;
+
         video.set(CV_CAP_PROP_POS_FRAMES, i * interval);
         video >> frame;
 
-        frames.push_back(frame.clone());
+        data[i] = frame.clone();
     }
 
-    double illuminance;
-    #pragma omp parallel for shared(frames, results) private(illuminance)
-    for (int i = 0; i <= samples; i++) {
-        // printf("%i/%i \n", omp_get_num_threads(), omp_get_thread_num());
-        illuminance = processFrame(frames[i]) / 2.55;
+    double timeInitFrames = (double) (clock() - startInitFrames) / CLOCKS_PER_SEC;
+    printf("[INFO] Time Init: %.2f ms\n", timeInitFrames * 1000);
 
-        results[i] = illuminance;
+    printf("[INFO] Running OpenMP Code\n");
+
+    double* results = new double[samples];
+    int startProcessingTime = clock();
+
+    double illuminance;
+    #pragma omp parallel for shared(data, results) private(illuminance)
+    for (int i = 0; i < samples; i++) {
+        results[i] = processFrame(data[i]);
     }
 
     #pragma omp barrier
 
-    for (int i = 0; i <= samples; i++) {
-        currentFrame = i * interval + 1;
+    double timeProcessing = (double) (clock() - startProcessingTime) / CLOCKS_PER_SEC;
 
-        printf("[SAMPLE #%i] Frame @%i, Time %.0fs: %.3f%%\n", i + 1, currentFrame, floor(currentFrame / fps), results[i]);
+    for (int i = 0; i < samples; i++) {
+        printf("Sample #%i: %.3f\n", i, results[i] / 2.55);
     }
 
-    double timeTaken = (double) (clock() - startTime) / (CLOCKS_PER_SEC);
+    printf("[INFO] Time Processing: %.3f ms\n", timeProcessing * 1000);
 
-    cout << endl << "Process finished in " << timeTaken << "s." << endl;
-
-    waitKey(0);
+    return 0;
 }
 
 

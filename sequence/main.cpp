@@ -2,9 +2,9 @@
 #include <cmath>
 #include <ctime>
 
+#include <opencv2/opencv.hpp>
 #include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-
+#include <opencv2/videoio.hpp>
 
 using namespace cv;
 using namespace std;
@@ -14,39 +14,47 @@ double processFrame(Mat frame);
 
 int main(int argc, char** argv)
 {
+    // Init data and variables
     string filename = "../../samples/sunshine.mp4";
     VideoCapture video = openVideo(filename);
-    Mat frame;
 
-    int currentFrame = 0;
-    int currentSample = 1;
     int frameCount = video.get(CV_CAP_PROP_FRAME_COUNT);
-    int fps = video.get(CV_CAP_PROP_FPS);
-    int time = ceil(frameCount / fps);
-    int rate = 2.0;
-    int interval = rate * fps;
-    int samples = floor(time / rate);
+    int samples = 100;
+    int interval = frameCount / samples;
 
-    cout << "[INFO] Video: " << time << " seconds." << endl;
-    cout << "[INFO] Taking " << samples + 1 << " samples in intervals of " << rate << "s." << endl;
-    cout << endl;
+    printf("[INFO] Setup Data\n");
+    int startInitFrames = clock();
 
-    clock_t startTime = clock();
-    for (int i = 0; i <= samples; i++) {
+    // Get frame samples from VideoCapture
+    Mat* data = new Mat[samples];
+    for (int i = 0; i < samples; i++) {
+        Mat frame;
+
         video.set(CV_CAP_PROP_POS_FRAMES, i * interval);
         video >> frame;
 
-        double illuminance = processFrame(frame) / 2.55;
-        currentFrame = i * interval;
-        printf("[SAMPLE #%i] Frame @%i, Time %.0fs: %.3f%%\n", currentSample, currentFrame + 1, floor(currentFrame / fps), illuminance);
-        currentSample += 1;
+        data[i] = frame.clone();
     }
 
-    double timeTaken = (double) (clock() - startTime) / (CLOCKS_PER_SEC);
+    double timeInitFrames = (double) (clock() - startInitFrames) / CLOCKS_PER_SEC;
+    printf("[INFO] Time Init: %.2f ms\n", timeInitFrames * 1000);
 
-    cout << endl << "Process finished in " << timeTaken << "s." << endl;
+    printf("[INFO] Running Sequencial Code\n");
 
-    waitKey(0);
+    double* results = new double[samples];
+    int startProcessingTime = clock();
+    for (int i = 0; i < samples; i++) {
+        results[i] = processFrame(data[i]);
+    }
+
+    double timeProcessing = (double) (clock() - startProcessingTime) / CLOCKS_PER_SEC;
+
+    for (int i = 0; i < samples; i++) {
+        printf("Sample #%i: %.3f\n", i, results[i] / 2.55);
+    }
+    printf("[INFO] Time Processing: %.3f ms\n", timeProcessing * 1000);
+
+    return 0;
 }
 
 

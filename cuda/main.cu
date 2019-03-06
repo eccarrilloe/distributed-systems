@@ -12,7 +12,7 @@ using namespace cv::cuda;
 using namespace std;
 
 VideoCapture openVideo(string filename);
-__global__ void processFrame(Mat* frames, int* N, double* results);
+__global__ void processFrame(GpuMat* frames, int* N, double* results);
 
 int main(void)
 {
@@ -23,28 +23,32 @@ int main(void)
     int frameCount = video.get(CV_CAP_PROP_FRAME_COUNT);
     int samples = 100;
     int interval = frameCount / samples;
-    int numBlocks = 1;
-    int numThreads = 128;
+    int numBlocks = 4;
+    int numThreads = 64;
 
     printf("[INFO] Setup Data\n");
     int startInitFrames = clock();
 
     // Get frame samples from VideoCapture
-    Mat* data = new Mat[samples];
+    GpuMat* data = new GpuMat[samples];
     for (int i = 0; i < samples; i++) {
         Mat frame;
+        GpuMat gpuFrame;
+
         video.set(CV_CAP_PROP_POS_FRAMES, i * interval);
         video >> frame;
 
-        data[i] = frame;
+        gpuFrame.upload(frame);
+        data[i] = gpuFrame;
     }
 
     // Transfer data from Host to Device
     double* results;
     int* N;
     int* d_N;
-    Mat* frames;
     N = &samples;
+
+    GpuMat* frames;
 
     cudaMalloc(&d_N, sizeof(int));
     cudaMalloc(&frames, samples * sizeof(Mat));
@@ -61,9 +65,14 @@ int main(void)
     processFrame<<<numBlocks, numThreads>>>(frames, d_N, results);
 
     cudaDeviceSynchronize();
-    double timeProcessing = (clock() - startProcessingTime);
+    double timeProcessing = (double) (clock() - startProcessingTime) / CLOCKS_PER_SEC;
+
+    for (int i = 0; i < samples; i++) {
+        printf("Sample #%i: %.3f\n", i, results[i] / 2.55);
+    }
+
     printf("[INFO] Device Synchronized\n");
-    printf("[INFO] Time Processing: %.2f ms\n", timeProcessing);
+    printf("[INFO] Time Processing: %.5f ms\n", timeProcessing * 1000);
 
     cudaFree(data);
     cudaFree(results);
@@ -82,7 +91,7 @@ VideoCapture openVideo(string filename) {
 }
 
 
-__global__ void processFrame(Mat* frames, int* N, double* results) {
+__global__ void processFrame(GpuMat* frames, int* N, double* results) {
     int index = blockIdx.x * blockDim.x + threadIdx.x;
 
     if (index < *N) {
@@ -90,22 +99,18 @@ __global__ void processFrame(Mat* frames, int* N, double* results) {
         int cols = frames[index].cols;
         int pixels = rows * cols;
 
-        // printf("%i; %i; %i => %i\n", blockIdx.x, blockDim.x, threadIdx.x, index);
-        // printf("%ix%i = %i\n", rows, cols, pixels);
-
         double illumina = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                int pixelR = frames[index].data[i * cols + j * 3 + 0];
-                int pixelG = frames[index].data[i * cols + j * 3 + 1];
-                int pixelB = frames[index].data[i * cols + j * 3 + 2];
+                uint8_t pixelR = frames[index].data[i * cols + j * 3 + 0];
+                uint8_t pixelG = frames[index].data[i * cols + j * 3 + 1];
+                uint8_t pixelB = frames[index].data[i * cols + j * 3 + 2];
 
-                printf("%i / %i / %i\n", pixelR, pixelG, pixelB);
-                //illumina += 0.3 * pixelR + 0.59 * pixelG + 0.11  * pixelB[2];
+                illumina += 0.3 * pixelR + 0.59 * pixelG + 0.11  * pixelB;
             }
         }
 
-        // results[index] = illumina / pixels;
+        results[index] = illumina / pixels;
     }
 
 }
