@@ -1,3 +1,0 @@
-/home/rvcristiand/projects/distributed/openmp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/rvcristiand/projects/distributed/openmp/cmake-build-debug/CMakeFiles/openmp.dir
-/home/rvcristiand/projects/distributed/openmp/cmake-build-debug/CMakeFiles/edit_cache.dir
